@@ -10,6 +10,7 @@ import pl.akademiaspring.ksb2pracadomowa3.service.CarService;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/cars")
 public class CarController {
@@ -47,9 +48,17 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PutMapping
-    public ResponseEntity<Car> modCar(@RequestBody Car car) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Car> modCar(@PathVariable long id, @RequestBody Car car) {
         if (carService.modCar(car)){
+            return new ResponseEntity<>(car, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Car> patchCar(@PathVariable long id, @RequestBody Car car) {
+        if (carService.patchCar(car)){
             return new ResponseEntity<>(car, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

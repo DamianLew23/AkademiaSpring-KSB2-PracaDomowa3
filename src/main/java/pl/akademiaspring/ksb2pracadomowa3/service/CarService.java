@@ -53,6 +53,21 @@ public class CarService {
         return carList.add(car);
     }
 
+    public boolean patchCar(Car car) {
+        Car carFromList = carList
+                .stream()
+                .filter(x -> (x.getId() == car.getId()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Nie znaleziono samochodu o ID: " + car.getId()));
+        if(car.getMark() != null)
+            carFromList.setMark(car.getMark());
+        if(car.getModel() != null)
+            carFromList.setModel(car.getModel());
+        if(car.getColor() != null)
+            carFromList.setColor(car.getColor());
+        return true;
+    }
+
     public boolean removeCar(long id) {
         Car carFromList = carList
                 .stream()
